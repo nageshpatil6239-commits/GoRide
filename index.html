@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoRide - Car Booking</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f2f5fa;
+        }
+
+        header {
+            background: #142b4a;
+            color: white;
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #ffcc33;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 55px 15px;
+            background: linear-gradient(120deg, #173b65, #3979b8);
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .booking {
+            background: white;
+            width: 90%;
+            max-width: 1000px;
+            margin: -30px auto 30px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px #0002;
+        }
+
+        .booking h2 {
+            margin-bottom: 20px;
+            color: #142b4a;
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background: #ffb900;
+            color: #142b4a;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e99c00;
+        }
+
+        .search-btn {
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+
+        .results {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .car {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px #0001;
+        }
+
+        .car h3 {
+            color: #173b65;
+            margin-bottom: 8px;
+        }
+
+        .car p {
+            margin: 5px 0;
+        }
+
+        .price {
+            color: #14834a;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            background: #142b4a;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media(max-width: 650px) {
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+            .car {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🚗 GoRide</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#booking">Book Ride</a>
+        <a href="#results">Cars</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Book Your Perfect Ride</h2>
+    <p>Travel from city to city comfortably and safely.</p>
+</section>
+
+<section class="booking" id="booking">
+    <h2>Search Your Journey</h2>
+
+    <form class="form" id="bookingForm">
+
+        <div>
+            <label>From City</label>
+            <input type="text" id="from"
+                placeholder="Enter starting city" required>
+        </div>
+
+        <div>
+            <label>To City</label>
+            <input type="text" id="to"
+                placeholder="Enter destination city" required>
+        </div>
+
+        <div>
+            <label>Journey Date</label>
+            <input type="date" id="date" required>
+        </div>
+
+        <div>
+            <label>Passengers</label>
+            <select id="passengers">
+                <option value="1">1 Passenger</option>
+                <option value="2">2 Passengers</option>
+                <option value="3">3 Passengers</option>
+                <option value="4">4 Passengers</option>
+                <option value="5">5 Passengers</option>
+                <option value="6">6 Passengers</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Car Type</label>
+            <select id="carType">
+                <option value="All">All Cars</option>
+                <option value="Sedan">Sedan</option>
+                <option value="SUV">SUV</option>
+                <option value="Hatchback">Hatchback</option>
+            </select>
+        </div>
+
+        <button class="search-btn" type="submit">
+            🔍 Search Cars
+        </button>
+
+    </form>
+</section>
+
+<section class="results" id="results">
+    <h2>Available Cars</h2>
+    <div id="carList">
+        <p>Enter your journey details and search for cars.</p>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 GoRide Car Booking Website</p>
+    <p>Travel Easy | Travel Safe</p>
+</footer>
+
+<script>
+    const cars = [
+        {name: "Swift Dzire", type: "Sedan",
+         seats: 4, price: 1800},
+
+        {name: "Hyundai Creta", type: "SUV",
+         seats: 5, price: 2800},
+
+        {name: "Maruti Swift", type: "Hatchback",
+         seats: 4, price: 1400},
+
+        {name: "Toyota Innova", type: "SUV",
+         seats: 6, price: 3500},
+
+        {name: "Honda City", type: "Sedan",
+         seats: 4, price: 2200}
+    ];
+
+    // Set minimum journey date to today
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("date").min = today;
+
+    document.getElementById("bookingForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        let from = document.getElementById("from").value.trim();
+        let to = document.getElementById("to").value.trim();
+        let date = document.getElementById("date").value;
+
+        let passengers = Number(
+            document.getElementById("passengers").value
+        );
+
+        let carType = document.getElementById("carType").value;
+
+        if (from.toLowerCase() === to.toLowerCase()) {
+            alert("From and To cities must be different!");
+            return;
+        }
+
+        let availableCars = cars.filter(car =>
+            car.seats >= passengers &&
+            (carType === "All" || car.type === carType)
+        );
+
+        let output = document.getElementById("carList");
+        output.innerHTML = "";
+
+        if (availableCars.length === 0) {
+            output.innerHTML =
+                "<p>No cars available for your selection.</p>";
+            return;
+        }
+
+        availableCars.forEach(car => {
+
+            let card = document.createElement("div");
+            card.className = "car";
+
+            let details = document.createElement("div");
+
+            let name = document.createElement("h3");
+            name.textContent = "🚘 " + car.name;
+
+            let type = document.createElement("p");
+            type.textContent = "Type: " + car.type;
+
+            let seats = document.createElement("p");
+            seats.textContent = "Seats: " + car.seats;
+
+            let route = document.createElement("p");
+            route.textContent = "Route: " + from + " → " + to;
+
+            let journeyDate = document.createElement("p");
+            journeyDate.textContent = "Date: " + date;
+
+            details.append(name, type, seats, route, journeyDate);
+
+            let booking = document.createElement("div");
+
+            let price = document.createElement("p");
+            price.className = "price";
+            price.textContent = "₹" + car.price;
+
+            let button = document.createElement("button");
+            button.textContent = "Book Now";
+
+            button.addEventListener("click", function() {
+                bookCar(car.name, from, to, date);
+            });
+
+            booking.append(price, button);
+            card.append(details, booking);
+            output.appendChild(card);
+        });
+
+        output.scrollIntoView({behavior: "smooth"});
+    });
+
+    function bookCar(name, from, to, date) {
+        alert(
+            "Booking Request Submitted!\n" +
+            "Car: " + name + "\n" +
+            "From: " + from + "\n" +
+            "To: " + to + "\n" +
+            "Date: " + date
+        );
+    }
+</script>
+
+</body>
+</html>
